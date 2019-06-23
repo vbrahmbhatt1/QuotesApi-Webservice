@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QuotesApi.Data;
 using QuotesApi.Models;
 
 namespace QuotesApi.Controllers
@@ -12,36 +13,43 @@ namespace QuotesApi.Controllers
     [ApiController]
     public class QuotesController : ControllerBase
     {
-        static List<Quote> _quotes = new List<Quote>()
-        {
-            new Quote(){Id=0, Author="Emily Dickinson", Description="The brain is wider than the sky.", Title="Inspirational"},
-            new Quote(){Id=1, Author="Richard Bach", Description="True love stories never have endings.", Title="Love Stories"}
-        };
+        private QuotesDbContext _quotesDbContext;
 
+        public QuotesController(QuotesDbContext quotesDbContext)
+        {
+            _quotesDbContext = quotesDbContext;
+        }
+
+        // GET: api/Quotes
         [HttpGet]
         public IEnumerable<Quote> Get()
         {
-            return _quotes;
+            return _quotesDbContext.Quotes;
         }
 
+        // GET: api/Quotes/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST: api/Quotes
         [HttpPost]
-         public void Post([FromBody]Quote quote)
+        public void Post([FromBody] string value)
         {
-            _quotes.Add(quote);
         }
 
-        [HttpPut("(id)")]
-        public void Put(int id,[FromBody] Quote quote)
+        // PUT: api/Quotes/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            _quotes[id] = quote;
         }
-        
-        [HttpDelete("(id)")]
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _quotes.RemoveAt(id);
         }
-
-
     }
 }
