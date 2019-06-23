@@ -1,3 +1,3 @@
 # QuotesApi-Webservice
-ASP.NET Core: RESTful API
+ASP.NET C# Core: RESTful API
 
